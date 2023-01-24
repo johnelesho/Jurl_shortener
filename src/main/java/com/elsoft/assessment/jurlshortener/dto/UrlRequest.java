@@ -1,5 +1,9 @@
 package com.elsoft.assessment.jurlshortener.dto;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import jakarta.validation.constraints.NotBlank;
@@ -22,7 +26,8 @@ public class UrlRequest {
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     @ApiModelProperty(required = false, notes = "Please indicate when you want it to expire")
-
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime expiryDate ;
 
     @ApiModelProperty(required = false, notes = "Please indicate how long (days) you want it to be active")
