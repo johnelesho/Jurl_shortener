@@ -65,7 +65,7 @@ class UrlShortenerServiceImplTest {
 
     @Test
     public void convertToShortUrlTest() {
-        var url = new UrlEntity("https://github.com/AnteMarin/UrlShortener-API");
+        var url = new UrlEntity("https://github.com/zonkyio/embedded-database-spring-test/issues/131");
         url.setCreatedDate(LocalDateTime.now());
         url.setId(5L);
 
@@ -73,7 +73,7 @@ class UrlShortenerServiceImplTest {
         when(urlShortenerUtilsService.retrieveStringFromId(url.getId())).thenReturn("f");
 
         var urlRequest = new UrlRequest();
-        urlRequest.setUrl("https://github.com/AnteMarin/UrlShortener-API");
+        urlRequest.setUrl("https://stackoverflow.com/questions/63193906/application-run-failed-org-springframework-beans-factory-beandefinitionstoreexce");
 
         assertThat(urlService.generateShortLink(urlRequest)).isEqualTo("f");
     }
@@ -82,12 +82,12 @@ class UrlShortenerServiceImplTest {
     public void getOriginalUrlTest() {
         when(urlShortenerUtilsService.retrieveIdFromString("h")).thenReturn((long) 7);
 
-        var url = new UrlEntity("https://github.com/AnteMarin/UrlShortener-API");
+        var url = new UrlEntity("https://stackoverflow.com/questions/63193906/application-run-failed-org-springframework-beans-factory-beandefinitionstoreexce");
         url.setCreatedDate(LocalDateTime.now());
         url.setId(7L);
 
         when(mockUrlRepository.findById((long) 7)).thenReturn(java.util.Optional.of(url));
-        assertThat( urlService.getOriginalFull("h")).isEqualTo("https://github.com/AnteMarin/UrlShortener-API");
+        assertThat( urlService.getOriginalFull("h")).isEqualTo("https://stackoverflow.com/questions/63193906/application-run-failed-org-springframework-beans-factory-beandefinitionstoreexce");
 
     }
 }

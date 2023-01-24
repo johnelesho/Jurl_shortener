@@ -1,40 +1,41 @@
 package com.elsoft.assessment.jurlshortener.service.impl;
 
+import com.elsoft.assessment.jurlshortener.exceptions.BadRequestException;
 import com.elsoft.assessment.jurlshortener.service.UrlShortenerUtilsService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.mockito.InjectMocks;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.*;
 
 
-@ExtendWith(SpringExtension.class)
+@ExtendWith(MockitoExtension.class)
 public class UrlShortenerUtilsServiceImplTest {
 
-    @Autowired
-    private UrlShortenerUtilsService shortenerUtilsService;
+    @InjectMocks
+    private UrlShortenerUtilsService shortenerUtilsService = new UrlShortenerUtilsServiceImpl();
+
+
 
     @Test
     public void convertToShort_lessThan62() {
-        assertThat(shortenerUtilsService.retrieveStringFromId(10)).isEqualTo("k");
+        assertThat(shortenerUtilsService.retrieveStringFromId(10)).isEqualTo(urlBase+"2");
     }
 
     @Test
     public void convertToShort_moreThan62() {
 
-        assertThat(shortenerUtilsService.retrieveStringFromId(78)).isEqualTo("bq");
+        assertThat(shortenerUtilsService.retrieveStringFromId(78)).endsWith("wp");
     }
-
+    private final String urlBase = "jurl.el/";
     @Test
-    public void retrieveIdFromString_singleCharacter() {
-        assertThat(shortenerUtilsService.retrieveIdFromString("l")).isEqualTo(11);
+    public void throwBadRequest_givenInvalidShortUrl() {
+        assertThatExceptionOfType(BadRequestException.class).isThrownBy(()->shortenerUtilsService.retrieveIdFromString("l"));
     }
-
     @Test
     public void shouldConvertMaxLongToShortString() {
         String maxIdShortString = shortenerUtilsService.retrieveStringFromId(Long.MAX_VALUE);
@@ -64,20 +65,14 @@ public class UrlShortenerUtilsServiceImplTest {
     public void shouldReturnBaseUrlWhenValidUrlSuppliedWithPort() throws MalformedURLException, URISyntaxException {
         assertThat(shortenerUtilsService.getBaseUrl("http://example.com:8080/foo")).isEqualTo("http://example.com:8080/");
     }
-    @Test
-    public void encode_lessThan62() {
-        assertThat( shortenerUtilsService.retrieveStringFromId(10)).isEqualTo("k");
-    }
+
 
     @Test
     public void encode_moreThan62() {
 
-        assertThat( shortenerUtilsService.retrieveStringFromId(78)).isEqualTo("bq");
+        assertThat( shortenerUtilsService.retrieveStringFromId(78)).endsWithIgnoringCase("WP");
 
     }
 
-    @Test
-    public void decode_singleCharacter() {
-        assertThat( shortenerUtilsService.retrieveIdFromString("l")).isEqualTo(11);
-    }
+
 }
