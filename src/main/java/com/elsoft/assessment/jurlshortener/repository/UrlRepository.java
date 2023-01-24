@@ -15,8 +15,8 @@ public interface UrlRepository extends JpaRepository<UrlEntity, Long> {
             "(?2 is null or u.createdDate = ?2) or " +
             "(?3 is null or u.expiryDate = ?3) or " +
             "(LOWER(u.url) LIKE LOWER(CONCAT('%', ?1 ,'%') )) or " +
-            "(LOWER(CONVERT( u.createdDate AS char)) LIKE LOWER(CONCAT('%',?1,'%') )) or " +
-            "(LOWER(CONVERT(u.expiryDate AS char)) LIKE LOWER(CONCAT('%',?1,'%') )) " +
+            "( DATE_FORMAT(u.createdDate, '%Y-%m-%d %T.%f') LIKE LOWER(CONCAT('%',?1,'%') )) or " +
+            "(DATE_FORMAT(u.expiryDate, '%Y-%m-%d %T.%f') LIKE LOWER(CONCAT('%',?1,'%') )) " +
             "order by createdDate desc")
      List<UrlEntity> findAllByQuery(String search , LocalDateTime createdDate, LocalDateTime expDate);
 
