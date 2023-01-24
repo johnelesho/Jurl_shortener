@@ -41,6 +41,8 @@ public class UrlShortenerServiceImpl implements UrlShortenerService {
         else
             url.setExpiryDate(LocalDateTime.now().plusHours(48));
 
+        if((url.getExpiryDate().isBefore(LocalDateTime.now()) )|| (url.getExpiryDate().isEqual(LocalDateTime.now())))
+            throw new BadRequestException("Invalid Expiry Date");
         try {
             if(Helpers.isUrlValid2(url.getUrl())){
             var entity = getUrlFromDb(url.getUrl());

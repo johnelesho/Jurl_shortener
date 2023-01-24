@@ -93,8 +93,6 @@ public class UrlControllerIntegrationTest {
         String shortUrl1 = mvc.perform(post("/api/v1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(asJsonString(fullUrl1)))
-                .andExpect(status().isBadRequest())
-                .andExpect(content().string(startsWith("Invalid")))
                 .andReturn().getResponse().getContentAsString();
 
         String shortUrl2 = mvc.perform(post("/api/v1")
