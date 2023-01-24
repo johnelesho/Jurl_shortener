@@ -1,8 +1,13 @@
 package com.elsoft.assessment.jurlshortener.service;
 
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+
 public interface UrlShortenerUtilsService {
 
-    String convertToShortUrl(long id);
+    String retrieveStringFromId(long id);
 
-    long retrieveLongUrl(String input);
+    long retrieveIdFromString(String input);
+
+    String getBaseUrl(String url) throws MalformedURLException, URISyntaxException;
 }
