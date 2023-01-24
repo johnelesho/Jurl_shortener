@@ -22,12 +22,12 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Slf4j
 public class UrlShortenerServiceImpl implements UrlShortenerService {
+
     final UrlRepository urlRepository;
     final UrlShortenerUtilsService urlShortenerUtilsService;
     @Override
     public String generateShortLink(UrlRequest request) {
-        var url = new UrlEntity();
-        url.setUrl(request.getUrl());
+        var url = new UrlEntity(request.getUrl());
 
         if(request.getExpiryDate() != null && request.getActiveHours() != null) {
             long diff = Helpers.getDateDiff(request.getExpiryDate());
@@ -35,28 +35,30 @@ public class UrlShortenerServiceImpl implements UrlShortenerService {
                  throw new BadRequestException("Enter either an expiry date or active hours (default is 48 hours)");
         }
         else if(request.getExpiryDate() == null && request.getActiveHours() != null)
-            url.setExpiryDate(LocalDateTime.now().plusHours(request.getActiveHours()));
+            url.setExpiryDate(LocalDateTime.now().plusDays(request.getActiveHours()));
         else if(request.getExpiryDate() != null)
             url.setExpiryDate(request.getExpiryDate());
         else
             url.setExpiryDate(LocalDateTime.now().plusHours(48));
 
         try {
-            if(Helpers.isUrlValid2(request.getUrl())){
-                UrlEntity entity = getUrlFromDb(request.getUrl());
+            if(Helpers.isUrlValid2(url.getUrl())){
+            var entity = getUrlFromDb(url.getUrl());
                 if(entity == null)
-                    entity = urlRepository.save(url);
-
+                    url = urlRepository.save(url);
+                else
+                    url = entity;
+log.info("URL {}", url);
 //               String shortUrl = urlShortenerUtilsService.getBaseUrl(request.getUrl());
-             String   shortUrl = urlShortenerUtilsService.retrieveStringFromId(entity.getId());
-                log.info("Long Url : {}  ShortUrl {}", request.getUrl(), shortUrl);
+             String   shortUrl = urlShortenerUtilsService.retrieveStringFromId(url.getId());
+                log.info("Long Url : {}  ShortUrl {}", url.getUrl(), shortUrl);
 
                 return shortUrl;
             }
         } catch (MalformedURLException e) {
             throw new BadRequestException("Invalid Url " + e.getMessage());
         }
-        throw new BadRequestException();
+        throw new BadRequestException("Invalid Url");
 
     }
 

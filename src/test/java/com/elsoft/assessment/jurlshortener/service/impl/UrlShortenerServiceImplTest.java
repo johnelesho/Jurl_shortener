@@ -5,17 +5,21 @@ import com.elsoft.assessment.jurlshortener.entity.UrlEntity;
 import com.elsoft.assessment.jurlshortener.repository.UrlRepository;
 import com.elsoft.assessment.jurlshortener.service.UrlShortenerService;
 import com.elsoft.assessment.jurlshortener.service.UrlShortenerUtilsService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import java.time.LocalDateTime;
+
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
+;
+
+@ExtendWith(MockitoExtension.class)
 class UrlShortenerServiceImplTest {
 
     @Mock
@@ -24,14 +28,18 @@ class UrlShortenerServiceImplTest {
     @Mock
     UrlShortenerUtilsService urlShortenerUtilsService;
 
-    @InjectMocks
+
     UrlShortenerService urlService;
+
+    @BeforeEach
+    public void setup() {
+
+        urlService = new UrlShortenerServiceImpl(mockUrlRepository, urlShortenerUtilsService);
+    }
 
     @Test
     public void generateShortLinkTest() {
-        var url = new UrlEntity();
-        url.setUrl("https://linkedln.com/in/johnelesho");
-//        url.setCreatedDate(new Date());
+        var url = new UrlEntity("https://linkedln.com/in/johnelesho");
         url.setId(5L);
 
         when(mockUrlRepository.save(any(UrlEntity.class))).thenReturn(url);
@@ -40,19 +48,46 @@ class UrlShortenerServiceImplTest {
         var urlRequest = new UrlRequest();
         urlRequest.setUrl("https://github.com/johnelesho/droneAPI");
 
-        assertEquals("f", urlService.generateShortLink(urlRequest));
+        assertThat( urlService.generateShortLink(urlRequest)).isEqualTo("f");
     }
 
     @Test
     public void UrlShortenerController() {
         when(urlShortenerUtilsService.retrieveIdFromString("h")).thenReturn((long) 7);
 
-        var url = new UrlEntity();
-        url.setUrl("https://github.com/johnelesho/droneAPI");
+        var url = new UrlEntity("https://github.com/johnelesho/droneAPI");
         url.setId(7L);
 
         when(mockUrlRepository.findById((long) 7)).thenReturn(java.util.Optional.of(url));
-        assertEquals("https://github.com/johnelesho/droneAPI", urlService.getOriginalFull("h"));
+        assertThat(urlService.getOriginalFull("h")).isEqualTo("https://github.com/johnelesho/droneAPI");
+
+    }
+
+    @Test
+    public void convertToShortUrlTest() {
+        var url = new UrlEntity("https://github.com/AnteMarin/UrlShortener-API");
+        url.setCreatedDate(LocalDateTime.now());
+        url.setId(5L);
+
+        when(mockUrlRepository.save(any(UrlEntity.class))).thenReturn(url);
+        when(urlShortenerUtilsService.retrieveStringFromId(url.getId())).thenReturn("f");
+
+        var urlRequest = new UrlRequest();
+        urlRequest.setUrl("https://github.com/AnteMarin/UrlShortener-API");
+
+        assertThat(urlService.generateShortLink(urlRequest)).isEqualTo("f");
+    }
+
+    @Test
+    public void getOriginalUrlTest() {
+        when(urlShortenerUtilsService.retrieveIdFromString("h")).thenReturn((long) 7);
+
+        var url = new UrlEntity("https://github.com/AnteMarin/UrlShortener-API");
+        url.setCreatedDate(LocalDateTime.now());
+        url.setId(7L);
+
+        when(mockUrlRepository.findById((long) 7)).thenReturn(java.util.Optional.of(url));
+        assertThat( urlService.getOriginalFull("h")).isEqualTo("https://github.com/AnteMarin/UrlShortener-API");
 
     }
 }

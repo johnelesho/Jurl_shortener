@@ -1,7 +1,7 @@
 package com.elsoft.assessment.jurlshortener.config;
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
@@ -11,8 +11,8 @@ import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 
-@Configuration
 @EnableSwagger2
+@ConditionalOnWebApplication
 public class SwaggerConfig {
 
     @Bean

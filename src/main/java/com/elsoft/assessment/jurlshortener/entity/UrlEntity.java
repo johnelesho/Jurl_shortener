@@ -1,9 +1,7 @@
 package com.elsoft.assessment.jurlshortener.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -16,6 +14,8 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @ToString
+@NoArgsConstructor
+@AllArgsConstructor
 public class UrlEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -32,4 +32,7 @@ public class UrlEntity implements Serializable {
     private LocalDateTime expiryDate;
 
 
+    public UrlEntity(String s) {
+        this.url = s;
+    }
 }

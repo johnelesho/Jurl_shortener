@@ -25,7 +25,7 @@ public class UrlRequest {
 
     private LocalDateTime expiryDate ;
 
-    @ApiModelProperty(required = false, notes = "Please indicate how long (hours) you want it to be active")
+    @ApiModelProperty(required = false, notes = "Please indicate how long (days) you want it to be active")
 
     private Long activeHours;
 
