@@ -17,6 +17,7 @@
         <java.version>17</java.version>
         <junit-jupiter-engine.version>5.8.2</junit-jupiter-engine.version>
         <commons-validator.version>1.7</commons-validator.version>
+        <springfox-swagger2.version>2.9.2</springfox-swagger2.version>
     </properties>
     <dependencies>
         <dependency>
@@ -74,12 +75,12 @@
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
-            <version>2.9.2</version>
+            <version>${springfox-swagger2.version}</version>
         </dependency>
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger-ui</artifactId>
-            <version>2.9.2</version>
+            <version>${springfox-swagger2.version}</version>
         </dependency>
     </dependencies>
 
