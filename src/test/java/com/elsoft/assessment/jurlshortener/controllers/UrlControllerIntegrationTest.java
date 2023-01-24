@@ -104,37 +104,6 @@ public class UrlControllerIntegrationTest {
 
         assertThat(shortUrl1).isNotEqualTo(shortUrl2);
     }
-//    @Test
-//    public void shouldNotInsertFullUrlIfInvalidRequestBody() throws Exception {
-//        UrlRequest fullUrl1 = new UrlRequest("https://github.com/johnelesho/Jurl_shortener", LocalDateTime.now().plusHours(28), 30L);
-//        UrlRequest fullUrl2 = new UrlRequest("hhttps://mvnrepository.com/artifact/com.fasterxml.jackson.datatype/jackson-datatype-jsr310/2.14.1", null, -72L);
-//        UrlRequest fullUrl3 = new UrlRequest("hhttps://mvnrepository.com/artifact/com.fasterxml.jackson.datatype/jackson-datatype-jsr310/2.14.1", new Date(), null);
-//
-//        String shortUrl1 = mvc.perform(post("/api/v1")
-//                .contentType(MediaType.APPLICATION_JSON)
-//                .content(asJsonString(fullUrl1)))
-//                .andExpect(status().isBadRequest())
-//                .andReturn().getResponse().getContentAsString();
-//
-//        String shortUrl2 = mvc.perform(post("/api/v1")
-//                .contentType(MediaType.APPLICATION_JSON)
-//                .content(asJsonString(fullUrl2)))
-//                .andExpect(status().isBadRequest())
-//                .andExpect(content().string(startsWith("Invalid")))
-//                .andReturn().getResponse().getContentAsString();
-//
-//        String shortUrl3 = mvc.perform(post("/api/v1")
-//                .contentType(MediaType.APPLICATION_JSON)
-//                .content(asJsonString(fullUrl3)))
-//                .andExpect(status().isBadRequest())
-//                .andExpect(content().string(startsWith("Invalid")))
-//                .andReturn().getResponse().getContentAsString();
-//
-//assertThat(shortUrl1).isEqualTo("Enter either an expiry date or active hours (default is 48 hours)");
-//assertThat(shortUrl2).isEqualTo("Invalid Expiry Date");
-//        assertThat(shortUrl1).isNotEqualTo(shortUrl2);
-//    }
-
     public static String asJsonString(final Object obj) throws JsonProcessingException {
         return new ObjectMapper().writeValueAsString(obj);
     }
