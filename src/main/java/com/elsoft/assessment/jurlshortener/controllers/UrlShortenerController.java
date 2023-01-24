@@ -13,7 +13,7 @@ import java.net.URI;
 import java.time.LocalDateTime;
 
 @RestController
-@RequestMapping("api/v1/")
+@RequestMapping("api/v1")
 @RequiredArgsConstructor
 public class UrlShortenerController {
 
@@ -29,7 +29,7 @@ public class UrlShortenerController {
     }
     @ApiOperation(value = "Retrieves all url", notes = "Finds original urls stored in the database")
     @GetMapping("all")
-    @Cacheable("allUrls")
+    @Cacheable(value = "allUrls", sync = true   )
     public ResponseEntity<?> getAll(@RequestParam(value = "search", required = false ) String search,@RequestParam(value = "createdDate", required = false ) LocalDateTime createdDate, @RequestParam(value = "expiryDate", required = false ) LocalDateTime expiryDate) {
 
         var urls = urlShortenerService.getAll(search,createdDate, expiryDate);

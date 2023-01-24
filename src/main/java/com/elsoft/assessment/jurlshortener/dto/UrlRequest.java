@@ -28,4 +28,9 @@ public class UrlRequest {
     @ApiModelProperty(required = false, notes = "Please indicate how long (hours) you want it to be active")
 
     private Long activeHours;
+
+    public UrlRequest(String url )
+    {
+       this.url = url;
+    }
 }

@@ -18,6 +18,7 @@
         <junit-jupiter-engine.version>5.8.2</junit-jupiter-engine.version>
         <commons-validator.version>1.7</commons-validator.version>
         <springfox-swagger2.version>2.9.2</springfox-swagger2.version>
+        <springfox-boot-starter.version>3.0.0</springfox-boot-starter.version>
     </properties>
     <dependencies>
         <dependency>
@@ -79,6 +80,11 @@
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger-ui</artifactId>
             <version>${springfox-swagger2.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-boot-starter</artifactId>
+            <version>${springfox-boot-starter.version}</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
