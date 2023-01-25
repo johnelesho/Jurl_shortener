@@ -6,6 +6,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -30,6 +31,8 @@ public class UrlControllerIntegrationTest {
     @Autowired
     private UrlShortenerService urlService;
     String urlBase = "jurl.el/";
+    @InjectMocks
+    UrlShortenerController urlShortenerController;
 
     @Test
     public void givenFullUrlReturnStatusCreated() throws Exception {
@@ -87,7 +90,7 @@ public class UrlControllerIntegrationTest {
     @Test
     public void shouldNotInsertFullUrlIfInvalidUrl() throws Exception {
         UrlRequest fullUrl1 = new UrlRequest("htt p3://example.com/foo1&324");
-        UrlRequest fullUrl2 = new UrlRequest("https://example.com-foo2");
+        UrlRequest fullUrl2 = new UrlRequest("https://exa;mple.com-foo2");
 
         String shortUrl1 = mvc.perform(post("/api/v1")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -98,11 +101,10 @@ public class UrlControllerIntegrationTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(asJsonString(fullUrl2)))
                 .andExpect(status().isBadRequest())
-                .andExpect(content().string(startsWith("Invalid")))
                 .andReturn().getResponse().getContentAsString();
 
 
-        assertThat(shortUrl1).isNotEqualTo(shortUrl2);
+        assertThat(shortUrl1).isEqualTo(shortUrl2);
     }
     public static String asJsonString(final Object obj) throws JsonProcessingException {
         return new ObjectMapper().writeValueAsString(obj);

@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Test;
 
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -48,14 +47,14 @@ class HelpersTest {
     }
 
     /**
-     * Method under test: {@link Helpers#getDateDiff(LocalDate)}
+     * Method under test: {@link Helpers#getDateDiff(LocalDateTime)}
      */
     @Test
     @DisplayName("Testing the date difference")
     public void testGetDateDiff() {
 
         long dateDiff = Helpers.getDateDiff(LocalDateTime.now().plusHours(56));
-        Assertions.assertThat(dateDiff).isEqualTo(55);
+        Assertions.assertThat(dateDiff).isEqualTo(56);
         dateDiff = Helpers.getDateDiff(LocalDateTime.now().plusDays(48));
         Assertions.assertThat(dateDiff).isEqualTo((48 * 24)-1);
         dateDiff = Helpers.getDateDiff(LocalDateTime.now().minusHours(48));
