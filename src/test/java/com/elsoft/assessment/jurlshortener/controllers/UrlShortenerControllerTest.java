@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 import static com.elsoft.assessment.jurlshortener.controllers.UrlControllerIntegrationTest.asJsonString;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.startsWith;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -101,9 +102,9 @@ public class UrlShortenerControllerTest {
                 new UrlShortenerServiceImpl(urlRepository, new UrlShortenerUtilsServiceImpl()));
         ResponseEntity<String> actualConvertToShortUrlResult = urlShortenerController
                 .convertToShortUrl(new UrlRequest("https://example.org/example"));
-        assertEquals("jurl.el/wy", actualConvertToShortUrlResult.getBody());
-        assertEquals(HttpStatusCode.valueOf(201), actualConvertToShortUrlResult.getStatusCode());
-        assertTrue(actualConvertToShortUrlResult.getHeaders().isEmpty());
+        assertThat( actualConvertToShortUrlResult.getBody()).isEqualTo("jurl.el/wy");
+        assertThat(actualConvertToShortUrlResult.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(201));
+        assertThat(actualConvertToShortUrlResult.getHeaders()).isEmpty();
         verify(urlRepository).findByUrl(any());
     }
 

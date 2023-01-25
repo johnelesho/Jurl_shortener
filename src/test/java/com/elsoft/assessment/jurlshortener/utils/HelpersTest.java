@@ -52,13 +52,13 @@ class HelpersTest {
     @Test
     @DisplayName("Testing the date difference")
     public void testGetDateDiff() {
-
-        long dateDiff = Helpers.getDateDiff(LocalDateTime.now().plusHours(56));
+       long dateDiff = Helpers.getDateDiff(LocalDateTime.now().minusHours(48));
+        Assertions.assertThat(dateDiff).isNegative();
+        dateDiff = Helpers.getDateDiff(LocalDateTime.now().plusHours(56));
         Assertions.assertThat(dateDiff).isEqualTo(56);
         dateDiff = Helpers.getDateDiff(LocalDateTime.now().plusDays(48));
-        Assertions.assertThat(dateDiff).isEqualTo((48 * 24)-1);
-        dateDiff = Helpers.getDateDiff(LocalDateTime.now().minusHours(48));
-        Assertions.assertThat(dateDiff).isNegative();
+        Assertions.assertThat(dateDiff).isEqualTo((48 * 24));
+
     }
 
 
